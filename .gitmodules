@@ -1,0 +1,12 @@
+[submodule "Src/3rdParty/glfw"]
+	path = Src/3rdParty/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "Src/3rdParty/assimp"]
+	path = Src/3rdParty/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "Src/3rdParty/stb"]
+	path = Src/3rdParty/stb
+	url = https://github.com/nothings/stb.git
+[submodule "Src/3rdParty/glm"]
+	path = Src/3rdParty/glm
+	url = https://github.com/g-truc/glm.git
