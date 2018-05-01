@@ -10,3 +10,6 @@
 [submodule "Src/3rdParty/glm"]
 	path = Src/3rdParty/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "Src/3rdParty/GLAD"]
+	path = Src/3rdParty/GLAD
+	url = https://github.com/Dav1dde/glad.git
