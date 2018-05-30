@@ -22,6 +22,7 @@ public:
     void unuse();
 
     void set_uniform(const std::string& name, int value);
+    void set_uniform(const std::string& name, unsigned int value);
     void set_uniform(const std::string& name, size_t value);
     void set_uniform(const std::string& name, float value);
     void set_uniform(const std::string& name, const glm::vec3& value);

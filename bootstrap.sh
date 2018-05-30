@@ -5,14 +5,23 @@ set -e
 project_name=$1
 project_path=$2
 gl_api=$3
+template_name=$4
 
 if [ -z "$project_name" -o -z "$project_path" ]; then
-	echo "Usage: ./bootstrap.sh [project name] [project path] [gl api]"
+	echo "Usage: ./bootstrap.sh [project name] [project path] [gl api] [template name: empty, lightning]"
 	exit 1
 fi
 
 if [ -z "$gl_api" ]; then
 	gl_api="gl=3.3"
+fi
+
+if [ -z "$template_name" ]; then
+	template_name="lightning"
+fi
+if [ ! -d "templates/$template_name" ]; then
+	echo "Template $template_name does not exist"
+	exit 1
 fi
 
 git submodule update --init
@@ -42,10 +51,14 @@ if [ ! -d "$project_path" ]; then
 fi
 
 cp -r Src "$project_path"/BootstrapGL
-sed "s/%PROJECT_NAME%/$project_name/g" templates/CMakeLists.txt > "$project_path"/CMakeLists.txt
-sed "s/%PROJECT_NAME%/$project_name/g" templates/main.cpp > "$project_path"/main.cpp
-mkdir "$project_path"/shaders
-mkdir "$project_path"/textures
+sed "s/%PROJECT_NAME%/$project_name/g" "templates/CMakeLists.txt" > "$project_path"/CMakeLists.txt
+sed "s/%PROJECT_NAME%/$project_name/g" "templates/$template_name/main.cpp" > "$project_path"/main.cpp
+for dir in shaders textures; do
+	mkdir "$project_path/$dir"
+	if [ -d "templates/$template_name/$dir" ]; then
+		cp templates/$template_name/$dir/* "$project_path/$dir/"
+	fi
+done
 
 echo "Your project $project_name is completely setup in $project_path."
 echo "Enjoy OpenGL!"

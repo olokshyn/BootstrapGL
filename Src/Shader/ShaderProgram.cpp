@@ -60,6 +60,13 @@ void ShaderProgram::set_uniform(const std::string& name, int value)
     glUniform1i(uniform, value);
 }
 
+void ShaderProgram::set_uniform(const std::string& name, unsigned int value)
+{
+    int uniform = find_uniform(name);
+    // FIXME: glUniform1ui fails to set sampler2D value
+    glUniform1i(uniform, static_cast<int>(value));
+}
+
 void ShaderProgram::set_uniform(const std::string& name, size_t value)
 {
     int uniform = find_uniform(name);
