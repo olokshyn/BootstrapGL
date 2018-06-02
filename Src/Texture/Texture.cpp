@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "TextureHandle.hpp"
+#include "Shader/ShaderProgram.hpp"
 
 using namespace BootstrapGL;
 
@@ -26,8 +27,12 @@ Texture::Texture(TextureInfo info, size_t texture_number)
 
     texture_handle.create_mipmap();
 
-    glTexParameteri(m_type, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(m_type, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(m_type, GL_TEXTURE_WRAP_S, 
+                    texture_handle.info().format == GL_RGBA
+                    ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+    glTexParameteri(m_type, GL_TEXTURE_WRAP_T,
+                    texture_handle.info().format == GL_RGBA
+                    ? GL_CLAMP_TO_EDGE : GL_REPEAT);
     glTexParameteri(m_type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(m_type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
@@ -68,3 +73,11 @@ size_t Texture::raw_texture_number() const
 {
     return m_texture_number;
 }
+
+void Texture::set_texture(ShaderProgram& shader_program,
+                          const std::string& name) const
+{
+    load();
+    shader_program.set_uniform(name, m_texture_number);
+}
+

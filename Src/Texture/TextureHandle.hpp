@@ -36,6 +36,9 @@ public:
     int number_of_channels() const
     { return m_number_of_channels; }
 
+    const TextureInfo& info() const
+    { return m_info; }
+
 private:
     TextureInfo m_info;
     unsigned char* m_data;

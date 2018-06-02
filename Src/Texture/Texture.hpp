@@ -15,6 +15,8 @@
 namespace BootstrapGL
 {
 
+class ShaderProgram;
+
 class Texture
 {
 public:
@@ -30,6 +32,9 @@ public:
 
     GLenum texture_number() const;
     size_t raw_texture_number() const;
+
+    void set_texture(ShaderProgram& shader_program,
+                     const std::string& name) const;
 
 private:
     GLenum m_type;

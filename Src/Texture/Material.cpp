@@ -20,9 +20,7 @@ Material::Material(Texture&& diffuse,
 void Material::set_material(ShaderProgram& shader_program,
                             const std::string& name) const
 {
-    m_diffuse.load();
-    m_specular.load();
-    shader_program.set_uniform(name + ".diffuse", m_diffuse.raw_texture_number());
-    shader_program.set_uniform(name + ".specular", m_specular.raw_texture_number());
+    m_diffuse.set_texture(shader_program, name + ".diffuse");
+    m_specular.set_texture(shader_program, name + ".specular");
     shader_program.set_uniform(name + ".shininess", m_shininess);
 }

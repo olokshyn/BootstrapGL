@@ -32,11 +32,9 @@ fi
 
 source env/bin/activate
 
-if ! python -c "import glad"; then
-	cd Src/3rdParty/GLAD
-	python setup.py install
-	cd -
-fi
+cd Src/3rdParty/GLAD
+python setup.py install
+cd -
 
 glad \
 	--profile core \
@@ -50,13 +48,23 @@ if [ ! -d "$project_path" ]; then
 	mkdir -p "$project_path"
 fi
 
+# Deploy or update BootstrapGL sources
+if [ -e "$project_path"/BootstrapGL ]; then
+	rm -rf "$project_path"/BootstrapGL
+fi
 cp -r Src "$project_path"/BootstrapGL
-sed "s/%PROJECT_NAME%/$project_name/g" "templates/CMakeLists.txt" > "$project_path"/CMakeLists.txt
-sed "s/%PROJECT_NAME%/$project_name/g" "templates/$template_name/main.cpp" > "$project_path"/main.cpp
+if [ ! -f "$project_path"/CMakeLists.txt ]; then
+	sed "s/%PROJECT_NAME%/$project_name/g" "templates/CMakeLists.txt" > "$project_path"/CMakeLists.txt
+fi
+if [ ! -f "$project_path"/main.cpp ]; then
+	sed "s/%PROJECT_NAME%/$project_name/g" "templates/$template_name/main.cpp" > "$project_path"/main.cpp
+fi
 for dir in shaders textures; do
-	mkdir "$project_path/$dir"
-	if [ -d "templates/$template_name/$dir" ]; then
-		cp templates/$template_name/$dir/* "$project_path/$dir/"
+	if [ ! -d "$project_path/$dir" ]; then
+		mkdir "$project_path/$dir"
+		if [ -d "templates/$template_name/$dir" ]; then
+			cp templates/$template_name/$dir/* "$project_path/$dir/"
+		fi
 	fi
 done
 

@@ -15,7 +15,7 @@ TextureHandle::TextureHandle(TextureInfo info)
         : m_info(std::move(info))
 {
     stbi_set_flip_vertically_on_load(m_info.flip_vertically);
-    m_data = stbi_load(info.filename.c_str(), &m_width, &m_height,
+    m_data = stbi_load(m_info.filename.c_str(), &m_width, &m_height,
                        &m_number_of_channels, 0);
     if (!m_data)
     {
